@@ -1,0 +1,991 @@
+/* ============================================================
+   MesaMaster Design System — v1.0
+   Psicologia das Cores + Hierarquia Visual + Modo Noturno
+   ============================================================ */
+
+/* --- 1. Google Fonts (Inter) -------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* --- 2. Design Tokens (CSS Custom Properties) -------------- */
+:root {
+  /* Tipografia */
+  --mm-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --mm-font-size-xs:   0.75rem;
+  --mm-font-size-sm:   0.875rem;
+  --mm-font-size-base: 1rem;
+  --mm-font-size-lg:   1.125rem;
+  --mm-font-size-xl:   1.25rem;
+  --mm-font-size-2xl:  1.5rem;
+  --mm-font-size-3xl:  1.875rem;
+
+  /* Superfícies */
+  --mm-bg:          #f1f5f9;
+  --mm-surface:     #ffffff;
+  --mm-surface-2:   #f8fafc;
+  --mm-border:      #e2e8f0;
+  --mm-border-focus: #93c5fd;
+
+  /* Texto */
+  --mm-text:        #1e293b;
+  --mm-text-muted:  #64748b;
+  --mm-text-faint:  #94a3b8;
+
+  /* Sombras */
+  --mm-shadow-sm:  0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.08);
+  --mm-shadow:     0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -2px rgba(0,0,0,.06);
+  --mm-shadow-lg:  0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -4px rgba(0,0,0,.06);
+
+  /* Bordas */
+  --mm-radius-sm:  0.375rem;
+  --mm-radius:     0.625rem;
+  --mm-radius-lg:  0.875rem;
+  --mm-radius-xl:  1.25rem;
+  --mm-radius-full: 9999px;
+
+  /* Transições */
+  --mm-transition-fast:   100ms cubic-bezier(0.4,0,0.2,1);
+  --mm-transition:        200ms cubic-bezier(0.4,0,0.2,1);
+  --mm-transition-slow:   350ms cubic-bezier(0.4,0,0.2,1);
+  --mm-transition-bounce: 300ms cubic-bezier(0.34,1.56,0.64,1);
+
+  /* Cores de Estado */
+  --mm-success:       #059669;
+  --mm-success-light: #d1fae5;
+  --mm-success-dark:  #065f46;
+  --mm-danger:        #dc2626;
+  --mm-danger-light:  #fee2e2;
+  --mm-danger-dark:   #991b1b;
+  --mm-warning:       #d97706;
+  --mm-warning-light: #fef3c7;
+  --mm-warning-dark:  #92400e;
+  --mm-info:          #0284c7;
+  --mm-info-light:    #e0f2fe;
+  --mm-info-dark:     #075985;
+
+  /* --- Tema Gestor (Azul Marinho — seriedade, autoridade) --- */
+  --mm-primary:         #1e3a5f;
+  --mm-primary-hover:   #16304f;
+  --mm-primary-active:  #0f2340;
+  --mm-primary-light:   #dbeafe;
+  --mm-primary-text:    #ffffff;
+  --mm-accent:          #3b82f6;
+  --mm-accent-hover:    #2563eb;
+  --mm-navbar-bg:       #0f2340;
+  --mm-navbar-text:     #e2e8f0;
+  --mm-navbar-hover:    rgba(255,255,255,0.12);
+  --mm-navbar-active:   rgba(255,255,255,0.20);
+}
+
+/* --- Tema Garçom (Laranja/Verde — energia, ação) ----------- */
+[data-role="garcom"] {
+  --mm-primary:        #c2410c;
+  --mm-primary-hover:  #9a3412;
+  --mm-primary-active: #7c2d12;
+  --mm-primary-light:  #ffedd5;
+  --mm-primary-text:   #ffffff;
+  --mm-accent:         #f97316;
+  --mm-accent-hover:   #ea6c00;
+  --mm-navbar-bg:      #7c2d12;
+  --mm-navbar-text:    #fef3c7;
+  --mm-navbar-hover:   rgba(255,255,255,0.12);
+  --mm-navbar-active:  rgba(255,255,255,0.20);
+  --mm-success:        #059669;
+  --mm-success-light:  #d1fae5;
+}
+
+/* --- 3. Modo Noturno (Dark Mode) --------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mm-bg:         #0f172a;
+    --mm-surface:    #1e293b;
+    --mm-surface-2:  #162032;
+    --mm-border:     #334155;
+    --mm-border-focus: #60a5fa;
+    --mm-text:       #f1f5f9;
+    --mm-text-muted: #94a3b8;
+    --mm-text-faint: #64748b;
+    --mm-shadow-sm:  0 1px 2px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.4);
+    --mm-shadow:     0 4px 6px -1px rgba(0,0,0,.3), 0 2px 4px -2px rgba(0,0,0,.3);
+    --mm-shadow-lg:  0 10px 15px -3px rgba(0,0,0,.3), 0 4px 6px -4px rgba(0,0,0,.3);
+    --mm-primary-light: #1e3a5f;
+    --mm-success-light: #064e3b;
+    --mm-danger-light:  #450a0a;
+    --mm-warning-light: #451a03;
+    --mm-info-light:    #0c2d3f;
+  }
+  [data-role="garcom"] {
+    --mm-primary-light: #431407;
+  }
+}
+
+/* Classe manual para dark mode (toggle via JS futuro) */
+.mm-dark {
+  --mm-bg:         #0f172a;
+  --mm-surface:    #1e293b;
+  --mm-surface-2:  #162032;
+  --mm-border:     #334155;
+  --mm-border-focus: #60a5fa;
+  --mm-text:       #f1f5f9;
+  --mm-text-muted: #94a3b8;
+  --mm-text-faint: #64748b;
+  --mm-primary-light: #1e3a5f;
+  --mm-success-light: #064e3b;
+  --mm-danger-light:  #450a0a;
+  --mm-warning-light: #451a03;
+  --mm-info-light:    #0c2d3f;
+}
+
+/* --- 4. Base & Reset --------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--mm-font-family);
+  font-size: var(--mm-font-size-base);
+  color: var(--mm-text);
+  background-color: var(--mm-bg) !important;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- 5. Tipografia ----------------------------------------- */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--mm-font-family);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--mm-text);
+  line-height: 1.25;
+}
+
+.page-title {
+  font-size: var(--mm-font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--mm-text);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.page-title .bi {
+  color: var(--mm-accent);
+}
+
+.text-muted {
+  color: var(--mm-text-muted) !important;
+}
+
+small, .small {
+  font-size: var(--mm-font-size-sm);
+}
+
+/* --- 6. Navbar --------------------------------------------- */
+.navbar.mm-navbar {
+  background-color: var(--mm-navbar-bg) !important;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  box-shadow: var(--mm-shadow);
+}
+
+.navbar.mm-navbar .navbar-brand {
+  font-family: var(--mm-font-family);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--mm-navbar-text) !important;
+  transition: opacity var(--mm-transition);
+}
+
+.navbar.mm-navbar .navbar-brand:hover {
+  opacity: .85;
+}
+
+.navbar.mm-navbar .nav-link {
+  color: var(--mm-navbar-text) !important;
+  opacity: .8;
+  font-size: var(--mm-font-size-sm);
+  font-weight: 500;
+  border-radius: var(--mm-radius-sm);
+  padding: .4rem .75rem !important;
+  transition: background var(--mm-transition), opacity var(--mm-transition);
+}
+
+.navbar.mm-navbar .nav-link:hover {
+  background: var(--mm-navbar-hover);
+  opacity: 1;
+}
+
+.navbar.mm-navbar .nav-link.active {
+  background: var(--mm-navbar-active);
+  opacity: 1;
+}
+
+.navbar.mm-navbar .navbar-toggler {
+  border-color: rgba(255,255,255,.3);
+}
+
+.navbar.mm-navbar .dropdown-menu {
+  background-color: var(--mm-surface);
+  border-color: var(--mm-border);
+  box-shadow: var(--mm-shadow-lg);
+  border-radius: var(--mm-radius);
+  padding: .375rem;
+}
+
+.navbar.mm-navbar .dropdown-item {
+  border-radius: var(--mm-radius-sm);
+  font-size: var(--mm-font-size-sm);
+  font-weight: 500;
+  color: var(--mm-text);
+  transition: background var(--mm-transition);
+}
+
+.navbar.mm-navbar .dropdown-item:hover {
+  background-color: var(--mm-surface-2);
+}
+
+.navbar.mm-navbar .dropdown-item.text-danger:hover {
+  background-color: var(--mm-danger-light);
+  color: var(--mm-danger) !important;
+}
+
+/* Badge de role na navbar */
+.mm-role-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: .15rem .45rem;
+  border-radius: var(--mm-radius-full);
+  background: rgba(255,255,255,.18);
+  color: var(--mm-navbar-text);
+  vertical-align: middle;
+  margin-left: .35rem;
+}
+
+/* --- 7. Cards ---------------------------------------------- */
+.card {
+  background-color: var(--mm-surface);
+  border: 1px solid var(--mm-border) !important;
+  border-radius: var(--mm-radius-lg) !important;
+  box-shadow: var(--mm-shadow-sm) !important;
+  transition: box-shadow var(--mm-transition), transform var(--mm-transition);
+}
+
+.card:hover {
+  box-shadow: var(--mm-shadow) !important;
+}
+
+.card-header {
+  background-color: var(--mm-surface-2) !important;
+  border-bottom: 1px solid var(--mm-border) !important;
+  border-radius: calc(var(--mm-radius-lg) - 1px) calc(var(--mm-radius-lg) - 1px) 0 0 !important;
+  padding: .875rem 1.25rem;
+  font-weight: 600;
+  font-size: var(--mm-font-size-sm);
+  color: var(--mm-text);
+}
+
+.card-body {
+  color: var(--mm-text);
+}
+
+/* Cards clicáveis (links) */
+a.card {
+  text-decoration: none;
+  transition: box-shadow var(--mm-transition), transform var(--mm-transition-bounce);
+}
+
+a.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mm-shadow-lg) !important;
+}
+
+a.card:active {
+  transform: translateY(-1px);
+}
+
+/* Cards de estatísticas do dashboard */
+.stat-card {
+  border-radius: var(--mm-radius-xl) !important;
+  border: 1px solid var(--mm-border) !important;
+  overflow: hidden;
+}
+
+.stat-card .stat-icon-wrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--mm-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--mm-text);
+}
+
+.stat-card .stat-label {
+  font-size: var(--mm-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--mm-text-muted);
+}
+
+/* --- 8. Botões & Micro-interações -------------------------- */
+.btn {
+  font-family: var(--mm-font-family);
+  font-weight: 600;
+  font-size: var(--mm-font-size-sm);
+  border-radius: var(--mm-radius);
+  padding: .5rem 1.1rem;
+  letter-spacing: .01em;
+  border-width: 1.5px;
+  transition:
+    background-color var(--mm-transition),
+    border-color var(--mm-transition),
+    box-shadow var(--mm-transition),
+    transform var(--mm-transition-fast),
+    opacity var(--mm-transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--mm-border-focus);
+  outline-offset: 2px;
+}
+
+/* Efeito ripple no clique */
+.btn .mm-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  transform: scale(0);
+  animation: mm-ripple-anim var(--mm-transition-slow) linear;
+  pointer-events: none;
+}
+
+@keyframes mm-ripple-anim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Botão Primário (Gestor — Azul Marinho) */
+.btn-primary,
+.btn-mm-primary {
+  background-color: var(--mm-primary);
+  border-color: var(--mm-primary);
+  color: var(--mm-primary-text);
+}
+
+.btn-primary:hover,
+.btn-mm-primary:hover {
+  background-color: var(--mm-primary-hover);
+  border-color: var(--mm-primary-hover);
+  color: var(--mm-primary-text);
+}
+
+.btn-primary:active,
+.btn-mm-primary:active {
+  background-color: var(--mm-primary-active) !important;
+  border-color: var(--mm-primary-active) !important;
+}
+
+/* Botão Dark → vira primary do tema */
+.btn-dark {
+  background-color: var(--mm-primary) !important;
+  border-color: var(--mm-primary) !important;
+  color: var(--mm-primary-text) !important;
+}
+
+.btn-dark:hover {
+  background-color: var(--mm-primary-hover) !important;
+  border-color: var(--mm-primary-hover) !important;
+}
+
+.btn-dark:active {
+  background-color: var(--mm-primary-active) !important;
+  border-color: var(--mm-primary-active) !important;
+}
+
+/* Botão Sucesso */
+.btn-success {
+  background-color: var(--mm-success) !important;
+  border-color: var(--mm-success) !important;
+  color: #fff !important;
+}
+
+.btn-success:hover {
+  background-color: #047857 !important;
+  border-color: #047857 !important;
+}
+
+/* Botão Perigo */
+.btn-danger {
+  background-color: var(--mm-danger) !important;
+  border-color: var(--mm-danger) !important;
+  color: #fff !important;
+}
+
+.btn-danger:hover {
+  background-color: var(--mm-danger-dark) !important;
+  border-color: var(--mm-danger-dark) !important;
+}
+
+/* Botões Outline */
+.btn-outline-secondary {
+  color: var(--mm-text-muted);
+  border-color: var(--mm-border);
+  background: var(--mm-surface);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--mm-surface-2) !important;
+  border-color: var(--mm-text-muted) !important;
+  color: var(--mm-text) !important;
+}
+
+.btn-outline-danger {
+  color: var(--mm-danger) !important;
+  border-color: var(--mm-danger) !important;
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--mm-danger) !important;
+  color: #fff !important;
+}
+
+/* Botão Loading */
+.btn.mm-loading {
+  pointer-events: none;
+  opacity: .75;
+}
+
+.btn.mm-loading::after {
+  content: '';
+  display: inline-block;
+  width: .9em;
+  height: .9em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: mm-spin .65s linear infinite;
+  margin-left: .5rem;
+  vertical-align: -.15em;
+}
+
+@keyframes mm-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- 9. Tabelas com Zebra Striping ------------------------- */
+.table {
+  font-size: var(--mm-font-size-sm);
+  color: var(--mm-text);
+  border-color: var(--mm-border) !important;
+  margin-bottom: 0 !important;
+  --bs-table-striped-bg: var(--mm-surface-2);
+  --bs-table-hover-bg: var(--mm-primary-light);
+}
+
+.table > :not(caption) > * > * {
+  padding: .875rem 1.1rem;
+  border-color: var(--mm-border) !important;
+  background-color: transparent;
+  color: var(--mm-text);
+}
+
+.table tbody tr:nth-child(even) > * {
+  background-color: var(--mm-surface-2);
+}
+
+.table tbody tr {
+  transition: background-color var(--mm-transition-fast);
+}
+
+.table tbody tr:hover > * {
+  background-color: var(--mm-primary-light) !important;
+}
+
+.table thead > tr > th {
+  font-size: var(--mm-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: .75rem 1.1rem;
+  white-space: nowrap;
+}
+
+.table-dark {
+  --bs-table-bg: var(--mm-primary) !important;
+  background-color: var(--mm-primary) !important;
+}
+
+.table-dark > tr > th,
+.table-dark th {
+  color: rgba(255,255,255,.9) !important;
+  border-color: rgba(255,255,255,.1) !important;
+}
+
+.table-light {
+  --bs-table-bg: var(--mm-surface-2);
+  background-color: var(--mm-surface-2) !important;
+}
+
+.table tfoot > tr > td,
+.table tfoot > tr > th {
+  font-size: var(--mm-font-size-sm);
+  border-top: 2px solid var(--mm-border) !important;
+}
+
+/* Posição de ranking na curva ABC */
+.table tbody tr:first-child .rank-badge {
+  background: #fbbf24;
+  color: #78350f;
+}
+.table tbody tr:nth-child(2) .rank-badge {
+  background: #cbd5e1;
+  color: #1e293b;
+}
+.table tbody tr:nth-child(3) .rank-badge {
+  background: #c2410c;
+  color: #fff;
+}
+
+/* --- 10. Formulários --------------------------------------- */
+.form-control,
+.form-select {
+  font-family: var(--mm-font-family);
+  font-size: var(--mm-font-size-sm);
+  color: var(--mm-text);
+  background-color: var(--mm-surface);
+  border: 1.5px solid var(--mm-border);
+  border-radius: var(--mm-radius);
+  padding: .5rem .875rem;
+  transition:
+    border-color var(--mm-transition),
+    box-shadow var(--mm-transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--mm-accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+  background-color: var(--mm-surface);
+  color: var(--mm-text);
+  outline: none;
+}
+
+.form-label {
+  font-size: var(--mm-font-size-sm);
+  font-weight: 600;
+  color: var(--mm-text);
+  margin-bottom: .375rem;
+}
+
+.form-text {
+  font-size: var(--mm-font-size-xs);
+  color: var(--mm-text-muted);
+}
+
+.input-group-text {
+  background-color: var(--mm-surface-2);
+  border: 1.5px solid var(--mm-border);
+  color: var(--mm-text-muted);
+  font-size: var(--mm-font-size-sm);
+}
+
+.input-group > .form-control:focus {
+  z-index: 3;
+}
+
+/* --- 11. Badges & Status ----------------------------------- */
+.badge {
+  font-family: var(--mm-font-family);
+  font-weight: 600;
+  font-size: .7rem;
+  letter-spacing: .04em;
+  padding: .3em .65em;
+  border-radius: var(--mm-radius-full);
+}
+
+.badge.bg-success {
+  background-color: var(--mm-success) !important;
+}
+
+.badge.bg-danger {
+  background-color: var(--mm-danger) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--mm-warning) !important;
+  color: #fff !important;
+}
+
+.badge.bg-dark {
+  background-color: var(--mm-primary) !important;
+}
+
+.badge.bg-secondary {
+  background-color: var(--mm-text-muted) !important;
+}
+
+/* Badges de status de mesa */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: var(--mm-font-size-xs);
+  font-weight: 600;
+  padding: .3rem .7rem;
+  border-radius: var(--mm-radius-full);
+}
+
+.status-badge.livre {
+  background-color: var(--mm-success-light);
+  color: var(--mm-success-dark);
+}
+
+.status-badge.ocupada {
+  background-color: var(--mm-danger-light);
+  color: var(--mm-danger-dark);
+}
+
+/* --- 12. Alertas ------------------------------------------ */
+.alert {
+  font-size: var(--mm-font-size-sm);
+  border-radius: var(--mm-radius);
+  border: none;
+  padding: .875rem 1.1rem;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: var(--mm-success-light);
+  color: var(--mm-success-dark);
+}
+
+.alert-danger {
+  background-color: var(--mm-danger-light);
+  color: var(--mm-danger-dark);
+}
+
+.alert-warning {
+  background-color: var(--mm-warning-light);
+  color: var(--mm-warning-dark);
+}
+
+.alert-info {
+  background-color: var(--mm-info-light);
+  color: var(--mm-info-dark);
+}
+
+.alert-secondary {
+  background-color: var(--mm-surface-2);
+  color: var(--mm-text-muted);
+  border: 1px solid var(--mm-border);
+}
+
+.btn-close {
+  opacity: .5;
+  transition: opacity var(--mm-transition);
+}
+.btn-close:hover { opacity: 1; }
+
+/* --- 13. Cards de Mesa (Garçom) ---------------------------- */
+.mesa-card {
+  border-radius: var(--mm-radius-lg) !important;
+  border: none !important;
+  transition:
+    transform var(--mm-transition-bounce),
+    box-shadow var(--mm-transition);
+  cursor: pointer;
+}
+
+.mesa-card.livre {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+}
+
+.mesa-card.ocupada {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+}
+
+.mesa-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--mm-shadow-lg) !important;
+}
+
+.mesa-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.mesa-card .mesa-number {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* --- 14. Skeleton Loading ---------------------------------- */
+.mm-skeleton {
+  background: linear-gradient(90deg,
+    var(--mm-border) 25%,
+    var(--mm-surface-2) 50%,
+    var(--mm-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: mm-skeleton-shimmer 1.5s infinite;
+  border-radius: var(--mm-radius-sm);
+  display: block;
+}
+
+@keyframes mm-skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.mm-skeleton-text {
+  height: .875rem;
+  margin-bottom: .5rem;
+  border-radius: var(--mm-radius-full);
+}
+
+.mm-skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: .75rem;
+  border-radius: var(--mm-radius-full);
+}
+
+.mm-skeleton-card {
+  height: 140px;
+  border-radius: var(--mm-radius-lg);
+}
+
+.mm-skeleton-row {
+  height: 3rem;
+  margin-bottom: .25rem;
+  border-radius: var(--mm-radius-sm);
+}
+
+/* --- 15. Transições de Página ------------------------------ */
+.mm-page-enter {
+  animation: mm-fade-up .3s ease forwards;
+}
+
+@keyframes mm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- 16. Página de Login ----------------------------------- */
+.mm-login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--mm-primary) 0%, #0f2340 60%, #1a1a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.mm-login-card {
+  width: 100%;
+  max-width: 440px;
+  border-radius: var(--mm-radius-xl) !important;
+  border: none !important;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,.35) !important;
+  overflow: hidden;
+}
+
+.mm-login-header {
+  background: linear-gradient(135deg, var(--mm-primary) 0%, var(--mm-primary-hover) 100%);
+  padding: 2.25rem 2rem;
+  text-align: center;
+}
+
+.mm-login-brand {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+  display: block;
+  margin-bottom: .25rem;
+}
+
+.mm-login-sub {
+  font-size: var(--mm-font-size-sm);
+  color: rgba(255,255,255,.65);
+}
+
+.mm-login-logo-circle {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgba(255,255,255,.15);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.mm-login-body {
+  padding: 2rem;
+  background: var(--mm-surface);
+}
+
+/* --- 17. Página de Erro ------------------------------------ */
+.mm-error-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.mm-error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  background: linear-gradient(135deg, var(--mm-primary), var(--mm-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+/* --- 18. Utilitários MesaMaster ---------------------------- */
+.mm-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.mm-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--mm-border);
+}
+
+.mm-page-header .page-title {
+  margin: 0;
+}
+
+.mm-section {
+  margin-bottom: 2rem;
+}
+
+/* Divisores suaves */
+.mm-divider {
+  border: none;
+  border-top: 1px solid var(--mm-border);
+  margin: 1.5rem 0;
+}
+
+/* Ícone colorido com fundo */
+.mm-icon-wrap {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--mm-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mm-icon-wrap.primary { background: var(--mm-primary-light); color: var(--mm-accent); }
+.mm-icon-wrap.success { background: var(--mm-success-light); color: var(--mm-success); }
+.mm-icon-wrap.danger  { background: var(--mm-danger-light);  color: var(--mm-danger); }
+.mm-icon-wrap.warning { background: var(--mm-warning-light); color: var(--mm-warning); }
+.mm-icon-wrap.info    { background: var(--mm-info-light);    color: var(--mm-info); }
+
+/* Garçom: tema laranja nos ícones de destaque */
+[data-role="garcom"] .mm-icon-wrap.primary {
+  background: var(--mm-primary-light);
+  color: var(--mm-accent);
+}
+
+/* --- 19. Responsividade ------------------------------------ */
+@media (max-width: 576px) {
+  .mm-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .mesa-card .mesa-number {
+    font-size: 1.25rem;
+  }
+
+  .btn {
+    font-size: var(--mm-font-size-xs);
+  }
+}
+
+/* --- 20. Scrollbar customizada ----------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mm-surface-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mm-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mm-text-faint);
+}
+
+/* --- 21. Seleção de texto ---------------------------------- */
+::selection {
+  background: var(--mm-primary-light);
+  color: var(--mm-primary);
+}
