@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -60,8 +61,9 @@ public class GarcomController {
     }
 
     @PostMapping("/mesas/{id}/nova-comanda")
-    public String abrirNovaComanda(@PathVariable UUID id) {
+    public String abrirNovaComanda(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
         comandaService.abrirNovaComanda(id);
+        redirectAttributes.addFlashAttribute("success", "Nova comanda aberta com sucesso!");
         return "redirect:/garcom/mesas/" + id;
     }
 
@@ -76,14 +78,17 @@ public class GarcomController {
     @PostMapping("/comandas/{id}/lancar-produto")
     public String lancarProduto(@PathVariable UUID id,
                                 @RequestParam UUID produtoId,
-                                @RequestParam int quantidade) {
+                                @RequestParam int quantidade,
+                                RedirectAttributes redirectAttributes) {
         pedidoService.adicionarItemNaComanda(id, produtoId, quantidade);
+        redirectAttributes.addFlashAttribute("success", "Produto lançado com sucesso!");
         return "redirect:/garcom/comandas/" + id;
     }
 
     @PostMapping("/comandas/{id}/fechar")
-    public String fecharComanda(@PathVariable UUID id) {
+    public String fecharComanda(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
         Comanda comanda = comandaService.fecharComanda(id);
+        redirectAttributes.addFlashAttribute("success", "Conta fechada com sucesso!");
         return "redirect:/garcom/mesas/" + comanda.getMesa().getId();
     }
 }

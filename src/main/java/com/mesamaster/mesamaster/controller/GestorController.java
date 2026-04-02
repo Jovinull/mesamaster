@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/gestor")
@@ -58,8 +59,9 @@ public class GestorController {
     }
 
     @PostMapping("/mesas/nova")
-    public String salvarMesa(@RequestParam Integer numeroMesa) {
+    public String salvarMesa(@RequestParam Integer numeroMesa, RedirectAttributes redirectAttributes) {
         mesaService.criarMesa(numeroMesa);
+        redirectAttributes.addFlashAttribute("success", "Mesa criada com sucesso!");
         return "redirect:/gestor/mesas";
     }
 
@@ -78,11 +80,12 @@ public class GestorController {
     }
 
     @PostMapping("/produtos/novo")
-    public String salvarProduto(@ModelAttribute Produto produto) {
+    public String salvarProduto(@ModelAttribute Produto produto, RedirectAttributes redirectAttributes) {
         if (produto.getAtivo() == null) {
             produto.setAtivo(false);
         }
         produtoService.salvar(produto);
+        redirectAttributes.addFlashAttribute("success", "Produto salvo com sucesso!");
         return "redirect:/gestor/produtos";
     }
 
