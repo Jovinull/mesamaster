@@ -80,4 +80,10 @@ public class GarcomController {
         pedidoService.adicionarItemNaComanda(id, produtoId, quantidade);
         return "redirect:/garcom/comandas/" + id;
     }
+
+    @PostMapping("/comandas/{id}/fechar")
+    public String fecharComanda(@PathVariable UUID id) {
+        Comanda comanda = comandaService.fecharComanda(id);
+        return "redirect:/garcom/mesas/" + comanda.getMesa().getId();
+    }
 }

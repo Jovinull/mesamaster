@@ -62,6 +62,28 @@ public class ComandaService {
     }
 
     @Transactional
+    public Comanda fecharComanda(UUID comandaId) {
+        Comanda comanda = comandaRepository.findById(comandaId)
+                .orElseThrow(() -> new NoSuchElementException("Comanda não encontrada: " + comandaId));
+
+        if (comanda.getStatus() == StatusComanda.FECHADA) {
+            throw new IllegalStateException("Comanda já está fechada.");
+        }
+
+        comanda.setStatus(StatusComanda.FECHADA);
+        comanda.setData_fechamento(LocalDateTime.now());
+        comandaRepository.save(comanda);
+
+        Mesa mesa = comanda.getMesa();
+        List<Comanda> abertas = comandaRepository.findByMesaAndStatus(mesa, StatusComanda.ABERTA);
+        if (abertas.isEmpty()) {
+            mesa.setStatus(StatusMesa.LIVRE);
+        }
+
+        return comanda;
+    }
+
+    @Transactional
     public void adicionarItemNaComanda(UUID comandaId, UUID produtoId, int quantidade) {
         Comanda comanda = comandaRepository.findById(comandaId)
                 .orElseThrow(() -> new NoSuchElementException("Comanda não encontrada: " + comandaId));
