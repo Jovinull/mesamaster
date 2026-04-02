@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Novo Usuário')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-person-plus me-2"></i>Novo Usuário
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/gestor/usuarios/novo}" th:object="${usuario}" method="post">
+
+                        <div class="mb-3">
+                            <label for="nome" class="form-label fw-semibold">Nome</label>
+                            <input type="text"
+                                   id="nome"
+                                   th:field="*{nome}"
+                                   class="form-control"
+                                   placeholder="Ex: João Silva"
+                                   required
+                                   autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="login" class="form-label fw-semibold">Login</label>
+                            <input type="text"
+                                   id="login"
+                                   th:field="*{login}"
+                                   class="form-control"
+                                   placeholder="Ex: joao.silva"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="senha" class="form-label fw-semibold">Senha</label>
+                            <input type="password"
+                                   id="senha"
+                                   th:field="*{senha}"
+                                   class="form-control"
+                                   placeholder="Senha de acesso"
+                                   required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="role" class="form-label fw-semibold">Perfil</label>
+                            <select id="role"
+                                    th:field="*{role}"
+                                    class="form-select"
+                                    required>
+                                <option value="">Selecione um perfil...</option>
+                                <option th:each="r : ${roles}"
+                                        th:value="${r}"
+                                        th:text="${r.name() == 'GESTOR' ? 'Gestor' : 'Garçom'}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark">
+                                <i class="bi bi-floppy me-1"></i>Salvar Usuário
+                            </button>
+                            <a th:href="@{/gestor/usuarios}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancelar
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
