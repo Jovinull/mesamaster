@@ -3,6 +3,7 @@ package com.mesamaster.mesamaster.service;
 import com.mesamaster.mesamaster.entidades.Comanda;
 import com.mesamaster.mesamaster.entidades.ItemPedido;
 import com.mesamaster.mesamaster.entidades.Produto;
+import com.mesamaster.mesamaster.enums.StatusComanda;
 import com.mesamaster.mesamaster.repositorios.ComandaRepository;
 import com.mesamaster.mesamaster.repositorios.ItemPedidoRepository;
 import com.mesamaster.mesamaster.repositorios.ProdutoRepository;
@@ -33,6 +34,10 @@ public class PedidoService {
     public void adicionarItemNaComanda(UUID comandaId, UUID produtoId, int quantidade) {
         Comanda comanda = comandaRepository.findById(comandaId)
                 .orElseThrow(() -> new NoSuchElementException("Comanda não encontrada: " + comandaId));
+
+        if (comanda.getStatus() == StatusComanda.FECHADA) {
+            throw new IllegalStateException("Não é possível adicionar itens a uma comanda fechada.");
+        }
 
         Produto produto = produtoRepository.findById(produtoId)
                 .orElseThrow(() -> new NoSuchElementException("Produto não encontrado: " + produtoId));
