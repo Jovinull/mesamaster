@@ -1,6 +1,7 @@
 package com.mesamaster.mesamaster.controller;
 
 import com.mesamaster.mesamaster.entidades.Produto;
+import com.mesamaster.mesamaster.service.DashboardService;
 import com.mesamaster.mesamaster.service.MesaService;
 import com.mesamaster.mesamaster.service.ProdutoService;
 import org.springframework.stereotype.Controller;
@@ -17,15 +18,27 @@ public class GestorController {
 
     private final MesaService mesaService;
     private final ProdutoService produtoService;
+    private final DashboardService dashboardService;
 
-    public GestorController(MesaService mesaService, ProdutoService produtoService) {
+    public GestorController(MesaService mesaService, ProdutoService produtoService, DashboardService dashboardService) {
         this.mesaService = mesaService;
         this.produtoService = produtoService;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping
     public String index() {
-        return "redirect:/gestor/mesas";
+        return "redirect:/gestor/dashboard";
+    }
+
+    // ── Dashboard ──────────────────────────────────────────────────────────
+
+    @GetMapping("/dashboard")
+    public String getDashboard(Model model) {
+        model.addAttribute("faturamentoDoDia", dashboardService.getFaturamentoDoDia());
+        model.addAttribute("faturamentoUltimos7Dias", dashboardService.getFaturamentoUltimos7Dias());
+        model.addAttribute("faturamentoMesVigente", dashboardService.getFaturamentoMesVigente());
+        return "gestor/dashboard";
     }
 
     // ── Mesas ──────────────────────────────────────────────────────────────
