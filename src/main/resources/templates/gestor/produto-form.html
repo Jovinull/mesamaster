@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Novo Produto')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-plus-square me-2"></i>Novo Produto
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/gestor/produtos/novo}" th:object="${produto}" method="post">
+
+                        <div class="mb-3">
+                            <label for="nome" class="form-label fw-semibold">Nome</label>
+                            <input type="text"
+                                   id="nome"
+                                   th:field="*{nome}"
+                                   class="form-control"
+                                   placeholder="Ex: Coca-Cola 350ml"
+                                   required
+                                   autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label fw-semibold">Categoria</label>
+                            <input type="text"
+                                   id="categoria"
+                                   th:field="*{categoria}"
+                                   class="form-control"
+                                   placeholder="Ex: Bebidas"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="precoVenda" class="form-label fw-semibold">Preço (R$)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="number"
+                                       id="precoVenda"
+                                       th:field="*{precoVenda}"
+                                       class="form-control"
+                                       min="0.01"
+                                       step="0.01"
+                                       placeholder="0,00"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input type="checkbox"
+                                       id="ativo"
+                                       th:field="*{ativo}"
+                                       class="form-check-input">
+                                <label for="ativo" class="form-check-label fw-semibold">
+                                    Produto ativo (disponível no cardápio)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark">
+                                <i class="bi bi-floppy me-1"></i>Salvar Produto
+                            </button>
+                            <a th:href="@{/gestor/produtos}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Cancelar
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.mesamaster.mesamaster.service;
 
 import com.mesamaster.mesamaster.entidades.Mesa;
+import com.mesamaster.mesamaster.enums.StatusMesa;
 import com.mesamaster.mesamaster.repositorios.MesaRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,12 @@ public class MesaService {
     public Mesa buscarPorId(UUID id) {
         return mesaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Mesa não encontrada com id: " + id));
+    }
+
+    public Mesa criarMesa(Integer numeroMesa) {
+        Mesa mesa = new Mesa();
+        mesa.setNumeroMesa(numeroMesa);
+        mesa.setStatus(StatusMesa.LIVRE);
+        return mesaRepository.save(mesa);
     }
 }
