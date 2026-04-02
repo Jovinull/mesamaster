@@ -77,6 +77,26 @@
 </nav>
 
 <!--
+  Fragmento: alerts
+  Uso: <div th:replace="~{fragments/layout :: alerts}"></div>
+  Exibe Flash Attributes de sucesso e erro definidos via RedirectAttributes.
+-->
+<div th:fragment="alerts" class="container mt-3">
+    <div th:if="${not #strings.isEmpty(success)}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    <div th:if="${not #strings.isEmpty(erro)}"
+         class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-1"></i>
+        <span th:text="${erro}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+</div>
+
+<!--
   Fragmento: scripts
   Uso: <div th:replace="~{fragments/layout :: scripts}"></div>
 -->

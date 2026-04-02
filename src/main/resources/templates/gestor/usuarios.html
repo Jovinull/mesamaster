@@ -5,6 +5,7 @@
 <body class="bg-light">
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: alerts}"></div>
 
 <div class="container py-4">
 
@@ -15,12 +16,6 @@
         <a th:href="@{/gestor/usuarios/novo}" class="btn btn-dark">
             <i class="bi bi-plus-lg me-1"></i>Novo Usuário
         </a>
-    </div>
-
-    <div th:if="${erro}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle me-1"></i>
-        <span th:text="${erro}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
     <div th:if="${usuarios.isEmpty()}" class="alert alert-info">

@@ -39,8 +39,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/novo")
-    public String salvarUsuario(@ModelAttribute Usuario usuario) {
+    public String salvarUsuario(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttributes) {
         usuarioService.salvar(usuario);
+        redirectAttributes.addFlashAttribute("success", "Usuário salvo com sucesso!");
         return "redirect:/gestor/usuarios";
     }
 
@@ -53,6 +54,7 @@ public class UsuarioController {
             return "redirect:/gestor/usuarios";
         }
         usuarioService.excluir(id);
+        redirectAttributes.addFlashAttribute("success", "Usuário excluído com sucesso!");
         return "redirect:/gestor/usuarios";
     }
 }
