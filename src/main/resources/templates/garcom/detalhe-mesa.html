@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detalhe da Mesa')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <a th:href="@{/garcom/mesas}" class="btn btn-outline-secondary btn-sm me-3">
+                <i class="bi bi-arrow-left me-1"></i>Voltar
+            </a>
+            <span class="fs-4 fw-bold">
+                <i class="bi bi-table me-2"></i>Mesa <span th:text="${mesa.numeroMesa}">1</span>
+            </span>
+        </div>
+        <form th:action="@{/garcom/mesas/{id}/nova-comanda(id=${mesa.id})}" method="post">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i>Abrir Nova Comanda Separada
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${comandas.isEmpty()}" class="alert alert-info">
+        Nenhuma comanda aberta para esta mesa.
+    </div>
+
+    <div th:unless="${comandas.isEmpty()}" class="row g-3">
+        <div th:each="comanda, iterStat : ${comandas}" class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    <i class="bi bi-receipt me-2"></i>Comanda <span th:text="${iterStat.index + 1}">1</span>
+                </div>
+                <div class="card-body">
+                    <p class="mb-1 text-muted small">
+                        <i class="bi bi-clock me-1"></i>Aberta em:
+                        <span th:text="${#temporals.format(comanda.data_abertura, 'dd/MM/yyyy HH:mm')}">--</span>
+                    </p>
+                    <p class="mb-3">
+                        <span class="fw-bold">Total:</span>
+                        R$ <span th:text="${#numbers.formatDecimal(comanda.total, 1, 2)}">0,00</span>
+                    </p>
+                    <a th:href="@{/garcom/comandas/{idComanda}(idComanda=${comanda.id})}"
+                       class="btn btn-success w-100">
+                        <i class="bi bi-bag-plus me-1"></i>Ver/Adicionar Pedidos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
