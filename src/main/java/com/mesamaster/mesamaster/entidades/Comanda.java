@@ -5,9 +5,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,4 +37,9 @@ public class Comanda {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
+
+    @OneToMany(mappedBy = "comanda", fetch = FetchType.EAGER)
+    @OrderBy("hora_pedido ASC")
+    @ToString.Exclude
+    private List<ItemPedido> itens = new ArrayList<>();
 }

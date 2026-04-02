@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detalhe da Comanda')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/garcom/mesas/{id}(id=${comanda.mesa.id})}" class="btn btn-outline-secondary btn-sm me-3">
+            <i class="bi bi-arrow-left me-1"></i>Voltar
+        </a>
+        <span class="fs-4 fw-bold">
+            <i class="bi bi-receipt me-2"></i>Comanda - Mesa <span th:text="${comanda.mesa.numeroMesa}">1</span>
+        </span>
+    </div>
+
+    <!-- Lançar novo produto -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header fw-bold">
+            <i class="bi bi-bag-plus me-2"></i>Lançar Produto
+        </div>
+        <div class="card-body">
+            <form th:action="@{/garcom/comandas/{id}/lancar-produto(id=${comanda.id})}" method="post">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                        <label for="produtoId" class="form-label">Produto</label>
+                        <select id="produtoId" name="produtoId" class="form-select" required>
+                            <option value="">Selecione um produto...</option>
+                            <option th:each="produto : ${produtos}"
+                                    th:value="${produto.id}"
+                                    th:text="${produto.nome + ' - R$ ' + #numbers.formatDecimal(produto.precoVenda, 1, 'COMMA', 2, 'POINT')}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="quantidade" class="form-label">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade"
+                               class="form-control" min="1" value="1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-plus-circle me-1"></i>Lançar Produto
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de itens pedidos -->
+    <div class="card shadow-sm">
+        <div class="card-header fw-bold">
+            <i class="bi bi-list-ul me-2"></i>Itens Pedidos
+        </div>
+        <div class="card-body p-0">
+            <div th:if="${comanda.itens.isEmpty()}" class="p-3 text-muted">
+                Nenhum item pedido ainda.
+            </div>
+            <table th:unless="${comanda.itens.isEmpty()}" class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Produto</th>
+                        <th class="text-center">Qtd</th>
+                        <th class="text-end">Preço Unit.</th>
+                        <th class="text-end">Subtotal</th>
+                        <th class="text-end">Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${comanda.itens}">
+                        <td th:text="${item.produto.nome}">Produto</td>
+                        <td class="text-center" th:text="${item.quantidade}">1</td>
+                        <td class="text-end"
+                            th:text="'R$ ' + ${#numbers.formatDecimal(item.preco_unitario_na_hora, 1, 'COMMA', 2, 'POINT')}">
+                            R$ 0,00
+                        </td>
+                        <td class="text-end"
+                            th:text="'R$ ' + ${#numbers.formatDecimal(item.preco_unitario_na_hora.multiply(T(java.math.BigDecimal).valueOf(item.quantidade)), 1, 'COMMA', 2, 'POINT')}">
+                            R$ 0,00
+                        </td>
+                        <td class="text-end" th:text="${#temporals.format(item.hora_pedido, 'HH:mm')}">--</td>
+                    </tr>
+                </tbody>
+                <tfoot class="table-light">
+                    <tr>
+                        <td colspan="3" class="fw-bold text-end">Total:</td>
+                        <td class="fw-bold text-end"
+                            th:text="'R$ ' + ${#numbers.formatDecimal(comanda.total, 1, 'COMMA', 2, 'POINT')}">
+                            R$ 0,00
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
