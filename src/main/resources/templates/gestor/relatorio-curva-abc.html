@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Curva ABC')}"></head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="container py-4">
+
+    <div class="d-flex align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">
+            <i class="bi bi-graph-up-arrow me-2"></i>Curva ABC — Produtos Mais Vendidos
+        </h2>
+    </div>
+
+    <div th:if="${relatorio.isEmpty()}" class="alert alert-info">
+        Nenhuma venda registrada para gerar o relatório.
+    </div>
+
+    <div th:unless="${relatorio.isEmpty()}" class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Posição</th>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Qtd. Vendida</th>
+                        <th scope="col">Total Gerado (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="item : ${relatorio}">
+                        <tr>
+                            <td th:text="${item.posicao}">1</td>
+                            <td th:text="${item.produto}">Produto</td>
+                            <td th:text="${item.quantidadeVendida}">0</td>
+                            <td th:text="'R$ ' + ${#numbers.formatDecimal(item.totalGerado, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a th:href="@{/gestor/dashboard}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Voltar ao Dashboard
+        </a>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
