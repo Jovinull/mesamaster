@@ -4,6 +4,7 @@ import com.mesamaster.mesamaster.entidades.Produto;
 import com.mesamaster.mesamaster.service.DashboardService;
 import com.mesamaster.mesamaster.service.MesaService;
 import com.mesamaster.mesamaster.service.ProdutoService;
+import com.mesamaster.mesamaster.service.RelatorioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,13 @@ public class GestorController {
     private final MesaService mesaService;
     private final ProdutoService produtoService;
     private final DashboardService dashboardService;
+    private final RelatorioService relatorioService;
 
-    public GestorController(MesaService mesaService, ProdutoService produtoService, DashboardService dashboardService) {
+    public GestorController(MesaService mesaService, ProdutoService produtoService, DashboardService dashboardService, RelatorioService relatorioService) {
         this.mesaService = mesaService;
         this.produtoService = produtoService;
         this.dashboardService = dashboardService;
+        this.relatorioService = relatorioService;
     }
 
     @GetMapping
@@ -81,5 +84,13 @@ public class GestorController {
         }
         produtoService.salvar(produto);
         return "redirect:/gestor/produtos";
+    }
+
+    // ── Relatórios ─────────────────────────────────────────────────────────
+
+    @GetMapping("/relatorios/curva-abc")
+    public String getCurvaABC(Model model) {
+        model.addAttribute("relatorio", relatorioService.gerarCurvaABC());
+        return "gestor/relatorio-curva-abc";
     }
 }
