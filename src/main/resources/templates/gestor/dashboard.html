@@ -1,79 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
-<body class="bg-light">
+<body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <div class="container py-4">
 
-    <div class="d-flex align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">
-            <i class="bi bi-bar-chart-line me-2"></i>Dashboard Financeiro
+    <div class="mm-page-header">
+        <h2 class="page-title">
+            <i class="bi bi-bar-chart-line"></i>Dashboard Financeiro
         </h2>
+        <div class="d-flex gap-2">
+            <a th:href="@{/gestor/relatorio-curva-abc}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-graph-up-arrow me-1"></i>Curva ABC
+            </a>
+        </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 mm-section">
 
         <div class="col-12 col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 me-3">
-                            <i class="bi bi-calendar-day fs-4"></i>
-                        </span>
-                        <span class="text-muted fw-semibold">Faturamento do Dia</span>
+            <div class="card stat-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="mm-icon-wrap primary stat-icon-wrap">
+                            <i class="bi bi-calendar-day"></i>
+                        </div>
+                        <span class="stat-label">Faturamento do Dia</span>
                     </div>
-                    <p class="display-6 fw-bold text-dark mb-0"
-                       th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoDoDia, 1, 'POINT', 2, 'COMMA')}">
+                    <div class="stat-value"
+                         th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoDoDia, 1, 'POINT', 2, 'COMMA')}">
                         R$ 0,00
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="bg-success bg-opacity-10 text-success rounded-3 p-2 me-3">
-                            <i class="bi bi-calendar-week fs-4"></i>
-                        </span>
-                        <span class="text-muted fw-semibold">Últimos 7 Dias</span>
+            <div class="card stat-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="mm-icon-wrap success stat-icon-wrap">
+                            <i class="bi bi-calendar-week"></i>
+                        </div>
+                        <span class="stat-label">Últimos 7 Dias</span>
                     </div>
-                    <p class="display-6 fw-bold text-dark mb-0"
-                       th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoUltimos7Dias, 1, 'POINT', 2, 'COMMA')}">
+                    <div class="stat-value"
+                         th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoUltimos7Dias, 1, 'POINT', 2, 'COMMA')}">
                         R$ 0,00
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body d-flex flex-column justify-content-between p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <span class="bg-warning bg-opacity-10 text-warning rounded-3 p-2 me-3">
-                            <i class="bi bi-calendar-month fs-4"></i>
-                        </span>
-                        <span class="text-muted fw-semibold">Mês Vigente</span>
+            <div class="card stat-card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="mm-icon-wrap warning stat-icon-wrap">
+                            <i class="bi bi-calendar-month"></i>
+                        </div>
+                        <span class="stat-label">Mês Vigente</span>
                     </div>
-                    <p class="display-6 fw-bold text-dark mb-0"
-                       th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoMesVigente, 1, 'POINT', 2, 'COMMA')}">
+                    <div class="stat-value"
+                         th:text="'R$ ' + ${#numbers.formatDecimal(faturamentoMesVigente, 1, 'POINT', 2, 'COMMA')}">
                         R$ 0,00
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="mt-4">
+    <div class="d-flex gap-2 flex-wrap">
         <a th:href="@{/gestor/mesas}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-grid-3x3-gap me-1"></i>Ir para Mesas
+            <i class="bi bi-grid-3x3-gap me-1"></i>Mesas
         </a>
-        <a th:href="@{/gestor/produtos}" class="btn btn-outline-secondary btn-sm ms-2">
-            <i class="bi bi-box-seam me-1"></i>Ir para Produtos
+        <a th:href="@{/gestor/produtos}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-bag me-1"></i>Cardápio
+        </a>
+        <a th:href="@{/gestor/usuarios}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-people me-1"></i>Usuários
         </a>
     </div>
 

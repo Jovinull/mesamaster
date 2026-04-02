@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Mesas')}"></head>
-<body class="bg-light">
+<body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 <div th:replace="~{fragments/layout :: alerts}"></div>
 
 <div class="container py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">
-            <i class="bi bi-grid-3x3-gap me-2"></i>Mesas
+    <div class="mm-page-header">
+        <h2 class="page-title">
+            <i class="bi bi-grid-3x3-gap"></i>Mesas
         </h2>
         <a th:href="@{/gestor/mesas/nova}" class="btn btn-dark">
             <i class="bi bi-plus-lg me-1"></i>Nova Mesa
@@ -18,31 +18,35 @@
     </div>
 
     <div th:if="${mesas.isEmpty()}" class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
         Nenhuma mesa cadastrada. Clique em <strong>Nova Mesa</strong> para começar.
     </div>
 
-    <div th:unless="${mesas.isEmpty()}" class="card shadow-sm">
+    <div th:unless="${mesas.isEmpty()}" class="card">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Número</th>
+                        <th scope="col">Número da Mesa</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="mesa, stat : ${mesas}">
-                        <td th:text="${stat.count}">1</td>
-                        <td th:text="${mesa.numeroMesa}">1</td>
+                        <td class="text-muted" th:text="${stat.count}">1</td>
+                        <td class="fw-semibold">
+                            <i class="bi bi-grid-3x3-gap me-1 text-muted"></i>
+                            Mesa <span th:text="${mesa.numeroMesa}">1</span>
+                        </td>
                         <td>
                             <span th:if="${mesa.status.name() == 'LIVRE'}"
-                                  class="badge bg-success">
-                                <i class="bi bi-check-circle me-1"></i>Livre
+                                  class="status-badge livre">
+                                <i class="bi bi-check-circle-fill"></i>Livre
                             </span>
                             <span th:unless="${mesa.status.name() == 'LIVRE'}"
-                                  class="badge bg-danger">
-                                <i class="bi bi-x-circle me-1"></i>Ocupada
+                                  class="status-badge ocupada">
+                                <i class="bi bi-person-fill"></i>Ocupada
                             </span>
                         </td>
                     </tr>

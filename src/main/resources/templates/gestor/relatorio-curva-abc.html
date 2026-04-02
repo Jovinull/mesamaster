@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Curva ABC')}"></head>
-<body class="bg-light">
+<body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <div class="container py-4">
 
-    <div class="d-flex align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">
-            <i class="bi bi-graph-up-arrow me-2"></i>Curva ABC — Produtos Mais Vendidos
+    <div class="mm-page-header">
+        <h2 class="page-title">
+            <i class="bi bi-graph-up-arrow"></i>Curva ABC — Produtos Mais Vendidos
         </h2>
+        <a th:href="@{/gestor/dashboard}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Voltar ao Dashboard
+        </a>
     </div>
 
     <div th:if="${relatorio.isEmpty()}" class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
         Nenhuma venda registrada para gerar o relatório.
     </div>
 
-    <div th:unless="${relatorio.isEmpty()}" class="card shadow-sm">
+    <div th:unless="${relatorio.isEmpty()}" class="card">
         <div class="table-responsive">
-            <table class="table table-hover mb-0">
+            <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Posição</th>
                         <th scope="col">Produto</th>
-                        <th scope="col">Qtd. Vendida</th>
-                        <th scope="col">Total Gerado (R$)</th>
+                        <th scope="col" class="text-center">Qtd. Vendida</th>
+                        <th scope="col" class="text-end">Total Gerado (R$)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <th:block th:each="item : ${relatorio}">
                         <tr>
-                            <td th:text="${item.posicao}">1</td>
-                            <td th:text="${item.produto}">Produto</td>
-                            <td th:text="${item.quantidadeVendida}">0</td>
-                            <td th:text="'R$ ' + ${#numbers.formatDecimal(item.totalGerado, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            <td>
+                                <span class="rank-badge badge bg-secondary"
+                                      th:text="'#' + ${item.posicao}">1</span>
+                            </td>
+                            <td class="fw-semibold" th:text="${item.produto}">Produto</td>
+                            <td class="text-center" th:text="${item.quantidadeVendida}">0</td>
+                            <td class="text-end fw-semibold"
+                                th:text="'R$ ' + ${#numbers.formatDecimal(item.totalGerado, 1, 'POINT', 2, 'COMMA')}">
+                                R$ 0,00
+                            </td>
                         </tr>
                     </th:block>
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-4">
-        <a th:href="@{/gestor/dashboard}" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left me-1"></i>Voltar ao Dashboard
-        </a>
     </div>
 
 </div>

@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Mapa de Mesas')}"></head>
-<body class="bg-light">
+<body data-role="garcom">
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
 <div class="container py-4">
 
-    <div class="mb-4">
-        <h2 class="mb-0 fw-bold">
-            <i class="bi bi-grid-3x3-gap me-2"></i>Mapa de Mesas
+    <div class="mm-page-header">
+        <h2 class="page-title">
+            <i class="bi bi-grid-3x3-gap"></i>Mapa de Mesas
         </h2>
     </div>
 
     <div th:if="${mesas.isEmpty()}" class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
         Nenhuma mesa cadastrada.
     </div>
 
     <div th:unless="${mesas.isEmpty()}" class="row g-3">
         <div th:each="mesa : ${mesas}" class="col-6 col-sm-4 col-md-3 col-lg-2">
             <a th:href="@{/garcom/mesas/{id}(id=${mesa.id})}"
-               th:classappend="${mesa.status.name() == 'LIVRE'} ? 'bg-success' : 'bg-danger'"
-               class="card text-white text-decoration-none h-100 shadow-sm">
-                <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
+               th:classappend="${mesa.status.name() == 'LIVRE'} ? ' livre' : ' ocupada'"
+               class="card mesa-card text-white text-decoration-none h-100">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center py-4 gap-2">
                     <i th:classappend="${mesa.status.name() == 'LIVRE'} ? 'bi-check-circle' : 'bi-person-fill'"
-                       class="bi fs-2 mb-2"></i>
-                    <span class="fs-4 fw-bold" th:text="'Mesa ' + ${mesa.numeroMesa}">Mesa 1</span>
-                    <span class="badge bg-white mt-2"
+                       class="bi fs-2"></i>
+                    <span class="mesa-number" th:text="'Mesa ' + ${mesa.numeroMesa}">Mesa 1</span>
+                    <span class="badge bg-white mt-1"
                           th:classappend="${mesa.status.name() == 'LIVRE'} ? 'text-success' : 'text-danger'"
                           th:text="${mesa.status.name() == 'LIVRE'} ? 'Livre' : 'Ocupada'">Status</span>
                 </div>
